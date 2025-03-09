@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+.env
+
+# Lock file
+package-lock.json
+
+# Backup files
+index-bkp-beforeController.js
