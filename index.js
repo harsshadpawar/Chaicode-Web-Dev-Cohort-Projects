@@ -1,18 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
-dotenv.config();
-
 import cors from "cors";
 import db from "./utils/db.js";
-
+import cookieParser from "cookie-parser";
 //import all routes
 import userRoutes from "./routes/user.routes.js";
 
-const app = express();
-//console.log(process.env.PORT); //4000 , 5000, 5173, 8080, 8000
-const port = process.env.PORT || 4000;
+dotenv.config();
 
-//tell express what is my frontend in - cors logic
+const app = express();
+
 app.use(
   cors({
     origin: process.env.BASE_URL,
@@ -21,26 +18,25 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-//tell backend to accept json and latest url encoding format
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()); //cookie parser
+
+const port = process.env.PORT || 4000;
 
 app.get("/", (req, res) => {
-  res.send("Cohort!"); // actual logic written is sending string.
-});
-app.get("/harsshad", (req, res) => {
-  res.send("Welcome Harsshad!");
+  res.send("Cohort!");
 });
 
-app.get("/yojana", (req, res) => {
-  res.send("Welcoem Yojana!");
+// Add this near the top of your route definitions
+app.get("/test", (req, res) => {
+  res.send("Test route is working!");
 });
 
-// connect to db
+//connect to db
 db();
 
-//userRoutes
+//user routes
 app.use("/api/v1/users", userRoutes);
 
 app.listen(port, () => {

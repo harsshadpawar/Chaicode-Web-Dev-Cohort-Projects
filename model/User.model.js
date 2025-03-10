@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
-//defining structure of a model /
 const userSchema = new mongoose.Schema(
   {
     name: String,
@@ -25,10 +25,18 @@ const userSchema = new mongoose.Schema(
       type: Date,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-//creating this struction in mongoDB
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
+});
+
 const User = mongoose.model("User", userSchema);
 
 export default User;

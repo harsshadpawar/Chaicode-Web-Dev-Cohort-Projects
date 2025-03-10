@@ -1,19 +1,18 @@
 import mongoose from "mongoose";
+
 import dotenv from "dotenv";
 dotenv.config();
 
-//const mongoose = require("mongoose");
-
-//export a function that connects to db
+// export a function that connects to db
 
 const db = () => {
   mongoose
     .connect(process.env.MONGO_URL)
     .then(() => {
-      console.log("Conected to MongoDB");
+      console.log("connected to mongodb");
     })
     .catch((err) => {
-      console.log("Error Connecting DB.");
+      console.log("Error connecting to mongodb");
     });
 };
 
